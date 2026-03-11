@@ -1,9 +1,31 @@
-name: Release
+name: "release"
 
 on:
-  push:
-    tags:
-      - '*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to release"
+        type: string
+        required: true
+
+  workflow_call:
+    inputs:
+      tag:
+        description: "Tag to release"
+        type: string
+        required: true
+    secrets:
+        DOCKER_USERNAME:
+          required: true
+        DOCKER_PASSWORD:
+          required: true
+        GORELEASER_GITHUB_TOKEN:
+          required: true
+        GORELEASER_HOMEBREW_TAP_TOKEN:
+          required: true
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -12,14 +34,15 @@ jobs:
       DOCKER_CLI_EXPERIMENTAL: "enabled"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: refs/tags/${{ inputs.tag }}
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.21'
+          go-version: 'stable'
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -36,8 +59,9 @@ jobs:
       - name: GoReleaser
         uses: goreleaser/goreleaser-action@v2.7.0
         with:
-          args: release --rm-dist
+          args: release --clean
           version: "<2"
         env:
           GITHUB_TOKEN: ${{ secrets.GORELEASER_GITHUB_TOKEN }}
           HOMEBREW_TAP_TOKEN: ${{ secrets.GORELEASER_HOMEBREW_TAP_TOKEN }}
+          GORELEASER_CURRENT_TAG: ${{ inputs.tag }}

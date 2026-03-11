@@ -5,39 +5,42 @@ site_description: >-
 
 repo_name: vektra/mockery
 repo_url: https://github.com/vektra/mockery
+edit_uri: edit/v3/docs
 
 theme:
   name: material
-  custom_dir: overrides
   icon:
     logo: fontawesome/brands/golang
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light blue
+      primary: green
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: light blue
+      primary: green
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
   features:
-    - content.code.annotate
-    - content.code.copy
     - content.action.edit
     - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.footnote.tooltips
     - navigation.indexes
+    - navigation.path
     - navigation.sections
     - navigation.tracking
     - toc.follow
 markdown_extensions:
   - admonition
   - attr_list
+  - footnotes
   - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -48,25 +51,31 @@ markdown_extensions:
       auto_title: true
   - pymdownx.inlinehilite
   - pymdownx.magiclink
+  - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
-      alternate_style: true 
+      alternate_style: true
   - toc:
       permalink: true
-  
 
 nav:
   - Home: index.md
   - Getting Started:
     - Installation: installation.md
     - Configuration: configuration.md
-    - Running: running.md
-    - Examples: examples.md
-  - Features: features.md
-  - Notes: 
-    - FAQ: notes.md
-    - Changelog: changelog.md
-    - Migrating to Packages: migrating_to_packages.md
+  - Templates:
+    - template/index.md
+    - template/testify.md
+    - template/matryer.md
+  - Features:
+    - include-auto-generated.md
+    - inpackage.md
+    - replace-type.md
+    - generate-directive.md
+  - Notes:
+    - faq.md
+    - v3.md
+    - dev-notes.md
 
 extra_css:
   - stylesheets/extra.css
@@ -86,7 +95,7 @@ plugins:
 - glightbox
 - mike:
     alias_type: symlink
-    canonical_version: latest
+    canonical_version: null
 - open-in-new-tab
 - search
 - social

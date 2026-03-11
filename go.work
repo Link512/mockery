@@ -1,9 +1,7 @@
-go 1.23.1
-
-toolchain go1.23.1
+go 1.25.0
 
 use (
 	.
-	./pkg/fixtures/example_project/pkg_with_submodules
+	./internal/fixtures/example_project/pkg_with_submodules
 	./tools
 )
